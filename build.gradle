@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.2'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'org.example'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+configurations {
+    compileOnly {   
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'io.jsonwebtoken:jjwt-api'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson'
+    testImplementation 'org.springframework.security:spring-security-test'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+// OJDBC SETTING BEGIN
+    // Get BOM file and choose Oracle JDBC driver (ojdbc11.jar) and Universal Connection Pool (ucp.jar)
+    implementation(enforcedPlatform("com.oracle.database.jdbc:ojdbc-bom:19.18.0.0"))
+    implementation("com.oracle.database.jdbc:ojdbc11")
+    implementation("com.oracle.database.jdbc:ucp")
+    // Additional Jars for using Oracle Wallets
+    implementation("com.oracle.database.security:oraclepki")
+    implementation("com.oracle.database.security:osdt_core")
+    implementation("com.oracle.database.security:osdt_cert")
+    // Additional Jars for High Availability
+    implementation("com.oracle.database.ha:ons")
+    implementation("com.oracle.database.ha:simplefan")
+// OJDBC SETTING END
+
+//    runtimeOnly 'com.h2database:h2'
+}
+
+
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
