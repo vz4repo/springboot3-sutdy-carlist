@@ -12,7 +12,7 @@ java {
 }
 
 configurations {
-    compileOnly {   
+    compileOnly {
         extendsFrom annotationProcessor
     }
 }
@@ -25,7 +25,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
 //    implementation 'io.jsonwebtoken:jjwt-api'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson'
@@ -33,7 +32,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
+// Spring Security dependencies BEGIN
+    implementation 'org.springframework.boot:spring-boot-starter-security'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+// Spring Security dependencies END
 // OJDBC SETTING BEGIN
     // Get BOM file and choose Oracle JDBC driver (ojdbc11.jar) and Universal Connection Pool (ucp.jar)
     implementation(enforcedPlatform("com.oracle.database.jdbc:ojdbc-bom:19.18.0.0"))
@@ -47,8 +49,8 @@ dependencies {
     implementation("com.oracle.database.ha:ons")
     implementation("com.oracle.database.ha:simplefan")
 // OJDBC SETTING END
-
 //    runtimeOnly 'com.h2database:h2'
+
 }
 
 
