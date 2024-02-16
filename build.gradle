@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.example'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.1-240215'
 
 java {
     sourceCompatibility = '17'
@@ -26,8 +26,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 //    implementation 'io.jsonwebtoken:jjwt-api'
-    runtimeOnly 'io.jsonwebtoken:jjwt-impl'
-    runtimeOnly 'io.jsonwebtoken:jjwt-jackson'
+//    runtimeOnly 'io.jsonwebtoken:jjwt-impl'
+//    runtimeOnly 'io.jsonwebtoken:jjwt-jackson'
     testImplementation 'org.springframework.security:spring-security-test'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -49,8 +49,9 @@ dependencies {
     implementation("com.oracle.database.ha:ons")
     implementation("com.oracle.database.ha:simplefan")
 // OJDBC SETTING END
-//    runtimeOnly 'com.h2database:h2'
-
+// TEST Embedded DB
+    // While testing, assign DB with @AutoConfigureTestDatabase
+    testImplementation 'com.h2database:h2'
 }
 
 

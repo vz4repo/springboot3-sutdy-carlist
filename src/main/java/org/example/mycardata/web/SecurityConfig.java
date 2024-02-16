@@ -1,5 +1,6 @@
 package org.example.mycardata.web;
 
+import java.util.Collections;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
 
 // 없어진 WebSecurityConfigurerAdapter
@@ -32,19 +35,20 @@ public class SecurityConfig{
   @Order(SecurityProperties.BASIC_AUTH_ORDER)
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
-        .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
-            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE)
-                .hasRole("ADMIN")
-                .requestMatchers("/admin/**").hasAnyRole("ADMIN")
-                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
-                .requestMatchers("/login/**").permitAll()
-                .requestMatchers("/any").permitAll()
-                .anyRequest().authenticated())
-        .httpBasic(Customizer.withDefaults())
-        .sessionManagement(httpSecuritySessionManagementConfigurer ->
-            httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
-                SessionCreationPolicy.STATELESS));
-
+//        // cors enable 설정
+        .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
+//        .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry ->
+//            authorizationManagerRequestMatcherRegistry.requestMatchers(HttpMethod.DELETE)
+//                .hasRole("ADMIN")
+//                .requestMatchers("/admin/**").hasAnyRole("ADMIN")
+//                .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+//                .requestMatchers("/login/**").permitAll()
+//                .anyRequest().authenticated())
+//        .httpBasic(Customizer.withDefaults())
+//        .sessionManagement(httpSecuritySessionManagementConfigurer ->
+//            httpSecuritySessionManagementConfigurer.sessionCreationPolicy(
+//                SessionCreationPolicy.STATELESS))
+          ;
 
     //    http
 //        .authorizeHttpRequests((authz) -> authz
@@ -109,5 +113,16 @@ public class SecurityConfig{
     return manager;
   }
 
+  //  CORS 설정
+  CorsConfigurationSource corsConfigurationSource() {
+    return request -> {
+      CorsConfiguration config = new CorsConfiguration();
+      config.setAllowedHeaders(Collections.singletonList("*"));
+      config.setAllowedMethods(Collections.singletonList("*"));
+      config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:3000")); // ⭐️ 허용할 origin
+      config.setAllowCredentials(true);
+      return config;
+    };
+  }
 
 }
